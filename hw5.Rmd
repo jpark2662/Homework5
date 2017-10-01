@@ -1,0 +1,85 @@
+---
+title: "HW5"
+output: html_document
+---
+# 1 DATA MUNGING
+## 1a. Import yob2016.txt into R and assign to 'df'.  Make columns human-readable.
+ANSWER 1a.  See the new head of the dataframe df below.
+```{r,  ECHO = TRUE}
+setwd("c:/Users/Jim/Google~1/School/DoingDataScience/Week5")
+library('reshape2')
+df <- read.csv("yob2016.txt",stringsAsFactors = FALSE, sep = ";", header = FALSE)
+library(data.table)
+setnames(df, old = c('V1','V2','V3'), new = c('Name','Gender','AmountOfChildren'))
+head(df)
+```
+
+## 1b. Display the summary and structure of df
+ANSWER 1B. See below.
+```{r, ECHO=TRUE}
+#Display the summary and structure of df
+summary(df)
+str(df)
+```
+
+## 1c. figure out which name has 3 y's and display it.
+ANSWER 1C. See below
+```{r, ECHO = TRUE}
+x <- grep("yyy",df$Name,value=T)  # finds all names in the data frame with 'yyy' in the name.
+x
+```
+##1d. Remove the name (observation) with 3 y's in it and save the remaining dataset to y2016.
+ANSWER 1D.  See code below.
+```{r, ECHO = TRUE}
+y2016 <- df[-grep(x, df$Name),] # Removes the name in the x vector from the df vector and assigns the remaining to a new vector called y2016
+```
+
+#2. DATA MERGING
+## 2a Import the yob2015.txt file into R and assign to the datafram y2015.  Give human readable names.  Show that human readable names have been changed by showing that the head of the dataframe now includes human-readable names.
+ANSWER 2a.  See the new head of the dataframe df below using alternate method from question 1.
+```{r,  ECHO = TRUE}
+setwd("c:/Users/Jim/Google~1/School/DoingDataScience/Week5")
+library('reshape2')
+y2015 <- read.table("yob2015.txt",sep=",", header = FALSE,col.names = c('Name','Gender','AmountOfChildren')) 
+head(y2015)
+```
+
+## 2b. Display the last 10 rows of the dataframe (y2015).  Describe something you find interesting about these 10 rows.
+ANSWER 2b.  See last 10 rows and the following statement regarding the last 10 rows:  All of the last 10 names start with Z, all are Male and all have occurances of 5 for each name.
+```{r, ECHO=TRUE}
+tail(y2015, n=10)
+```
+
+## 2c. Merge y2016 adn y2015 by your Name column; assign it to a dataframe called 'final'.  The client only cares about names that have data for "both" 2016 and 2015; there should be no NA calues in either of your amount of children rows after merging.
+ANSWER 2c. Data from y2016 and y2015 has been merged.  All entries are "M", for male, and the only entries included are those which occurred in both the y2016 and y2015 data sets.  All NS's have been removed.
+```{r, ECHO = TRUE}
+final <- merge( x = y2016[y2016$Gender == 'M',], y = y2015[y2015$Gender == 'M',], by = 'Name', all = FALSE)
+head(final)
+```
+
+#3. DATA SUMMARY
+## 3a. Create a new column called "Total" in final that adds the amount of children in 2015 and 2016 together.  In those two years combined, how many people were given popular names?
+ANSWER 3a.  
+```{r, ECHO=TRUE}
+final$Total <- final$AmountOfChildren.x + final$AmountOfChildren.y
+head(final)
+```
+## 3b. Sort the data by Total.
+ANSWER 3b.  The code below sort by the Total of both years and prints out in decreasing order of popularity by Total. 
+```{r, ECHO = TRUE}
+final <- final[order(-final$Total), c("Name", "Total")] # Prints a list of the most popular names form y2016 and y2015 combined (final) in a decreasing order by Total of both years.
+head(final, n=15) # Prints the top 15 names in the combined (y2015 and y2016) data set by popularity as indicated in the 'Total' column.
+```
+## 3c.  The client is expecting a girl! Omit boys adn give the top 10 most popoular girl's names.  Assign this to object 'girl'.
+```{r, ECHO = TRUE}
+girl <- merge( x = y2016[y2016$Gender == 'F',], y = y2015[y2015$Gender == 'F',], by = 'Name', all = FALSE)
+girl$Total <- girl$AmountOfChildren.x + girl$AmountOfChildren.y
+girl <- girl[order(-girl$Total), c("Name", "Total")] 
+head(girl)
+```
+
+## 3d. Write these top 10 girl Names and thier Totals to a CSV file call 'itsagirl.csv'. Do not include row labels.  Leave out columns other than Name and Total.
+ANSWER 3d. The top 10, most popular girl names from the combined y2015 and y2016 data sets are written to a csv fiel called 'itsagirl.csv'.
+```{r, ECHO = TRUE}
+write.table(girl[1:10,c("Name", "Total")], "itsagirl.csv", sep=",", row.names = FALSE) #creates a .csv file with the data frame used in this exercise.
+```
