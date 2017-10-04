@@ -120,21 +120,24 @@ $(document).ready(function () {
 </div>
 
 
+<div id="james-park-msds-6306-doing-data-science" class="section level1">
+<h1>James Park MSDS 6306 DOING DATA SCIENCE</h1>
+</div>
 <div id="data-munging" class="section level1">
 <h1>1 DATA MUNGING</h1>
 <div id="a.-import-yob2016.txt-into-r-and-assign-to-df.-make-columns-human-readable." class="section level2">
 <h2>1a. Import yob2016.txt into R and assign to ‘df’. Make columns human-readable.</h2>
 <p>ANSWER 1a. See the new head of the dataframe df below.</p>
-<pre class="r"><code>setwd(&quot;c:/Users/Jim/Google~1/School/DoingDataScience/Week5&quot;)
+<pre class="r"><code>setwd(&quot;c:/Users/Jim/Google~1/School/DoingDataScience/Week5/Homework5&quot;)
 library('reshape2')
-df &lt;- read.csv(&quot;yob2016.txt&quot;,stringsAsFactors = FALSE, sep = &quot;;&quot;, header = FALSE)
+df &lt;- read.csv(&quot;yob2016.txt&quot;,stringsAsFactors = FALSE, sep = &quot;;&quot;, header = FALSE) #reads the data into a dataframe called df.
 library(data.table)</code></pre>
 <pre><code>## 
 ## Attaching package: 'data.table'</code></pre>
 <pre><code>## The following objects are masked from 'package:reshape2':
 ## 
 ##     dcast, melt</code></pre>
-<pre class="r"><code>setnames(df, old = c('V1','V2','V3'), new = c('Name','Gender','AmountOfChildren'))
+<pre class="r"><code>setnames(df, old = c('V1','V2','V3'), new = c('Name','Gender','AmountOfChildren')) #Changes the names of the columns.
 head(df)</code></pre>
 <pre><code>##       Name Gender AmountOfChildren
 ## 1     Emma      F            19414
@@ -148,7 +151,7 @@ head(df)</code></pre>
 <h2>1b. Display the summary and structure of df</h2>
 <p>ANSWER 1B. See below.</p>
 <pre class="r"><code>#Display the summary and structure of df
-summary(df)</code></pre>
+summary(df) #Provides basic data about the dataframe df.</code></pre>
 <pre><code>##      Name              Gender          AmountOfChildren 
 ##  Length:32869       Length:32869       Min.   :    5.0  
 ##  Class :character   Class :character   1st Qu.:    7.0  
@@ -156,7 +159,7 @@ summary(df)</code></pre>
 ##                                        Mean   :  110.7  
 ##                                        3rd Qu.:   30.0  
 ##                                        Max.   :19414.0</code></pre>
-<pre class="r"><code>str(df)</code></pre>
+<pre class="r"><code>str(df) #Provides basic data about the dataframe df.</code></pre>
 <pre><code>## 'data.frame':    32869 obs. of  3 variables:
 ##  $ Name            : chr  &quot;Emma&quot; &quot;Olivia&quot; &quot;Ava&quot; &quot;Sophia&quot; ...
 ##  $ Gender          : chr  &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; ...
@@ -180,7 +183,7 @@ x</code></pre>
 <div id="a-import-the-yob2015.txt-file-into-r-and-assign-to-the-datafram-y2015.-give-human-readable-names.-show-that-human-readable-names-have-been-changed-by-showing-that-the-head-of-the-dataframe-now-includes-human-readable-names." class="section level2">
 <h2>2a Import the yob2015.txt file into R and assign to the datafram y2015. Give human readable names. Show that human readable names have been changed by showing that the head of the dataframe now includes human-readable names.</h2>
 <p>ANSWER 2a. See the new head of the dataframe df below using alternate method from question 1.</p>
-<pre class="r"><code>setwd(&quot;c:/Users/Jim/Google~1/School/DoingDataScience/Week5&quot;)
+<pre class="r"><code>setwd(&quot;c:/Users/Jim/Google~1/School/DoingDataScience/Week5/Homework5&quot;)
 library('reshape2')
 y2015 &lt;- read.table(&quot;yob2015.txt&quot;,sep=&quot;,&quot;, header = FALSE,col.names = c('Name','Gender','AmountOfChildren')) 
 head(y2015)</code></pre>
@@ -195,7 +198,7 @@ head(y2015)</code></pre>
 <div id="b.-display-the-last-10-rows-of-the-dataframe-y2015.-describe-something-you-find-interesting-about-these-10-rows." class="section level2">
 <h2>2b. Display the last 10 rows of the dataframe (y2015). Describe something you find interesting about these 10 rows.</h2>
 <p>ANSWER 2b. See last 10 rows and the following statement regarding the last 10 rows: All of the last 10 names start with Z, all are Male and all have occurances of 5 for each name.</p>
-<pre class="r"><code>tail(y2015, n=10)</code></pre>
+<pre class="r"><code>tail(y2015, n=10) #views the last 10 rows of the dataframe</code></pre>
 <pre><code>##         Name Gender AmountOfChildren
 ## 33054   Ziyu      M                5
 ## 33055   Zoel      M                5
@@ -211,7 +214,7 @@ head(y2015)</code></pre>
 <div id="c.-merge-y2016-adn-y2015-by-your-name-column-assign-it-to-a-dataframe-called-final.-the-client-only-cares-about-names-that-have-data-for-both-2016-and-2015-there-should-be-no-na-calues-in-either-of-your-amount-of-children-rows-after-merging." class="section level2">
 <h2>2c. Merge y2016 adn y2015 by your Name column; assign it to a dataframe called ‘final’. The client only cares about names that have data for “both” 2016 and 2015; there should be no NA calues in either of your amount of children rows after merging.</h2>
 <p>ANSWER 2c. Data from y2016 and y2015 has been merged. All entries are “M”, for male, and the only entries included are those which occurred in both the y2016 and y2015 data sets. All NS’s have been removed.</p>
-<pre class="r"><code>final &lt;- merge( x = y2016[y2016$Gender == 'M',], y = y2015[y2015$Gender == 'M',], by = 'Name', all = FALSE)
+<pre class="r"><code>final &lt;- merge( x = y2016[y2016$Gender == 'M',], y = y2015[y2015$Gender == 'M',], by = 'Name', all = FALSE) #A dataframe that merges the y2015 and y2016 dataframes for males by names.  It only includes those names that appear in both of the merged dataframes.
 head(final)</code></pre>
 <pre><code>##       Name Gender.x AmountOfChildren.x Gender.y AmountOfChildren.y
 ## 1    Aaban        M                  9        M                 15
@@ -226,9 +229,9 @@ head(final)</code></pre>
 <h1>3. DATA SUMMARY</h1>
 <div id="a.-create-a-new-column-called-total-in-final-that-adds-the-amount-of-children-in-2015-and-2016-together.-in-those-two-years-combined-how-many-people-were-given-popular-names" class="section level2">
 <h2>3a. Create a new column called “Total” in final that adds the amount of children in 2015 and 2016 together. In those two years combined, how many people were given popular names?</h2>
-<p>ANSWER 3a.</p>
-<pre class="r"><code>final$Total &lt;- final$AmountOfChildren.x + final$AmountOfChildren.y
-head(final)</code></pre>
+<p>ANSWER 3a. New Total column created.</p>
+<pre class="r"><code>final$Total &lt;- final$AmountOfChildren.x + final$AmountOfChildren.y #Combines the totals of names into one grand total called 'Total'
+head(final) #prints the first few rows of the dataframe 'final'</code></pre>
 <pre><code>##       Name Gender.x AmountOfChildren.x Gender.y AmountOfChildren.y Total
 ## 1    Aaban        M                  9        M                 15    24
 ## 2    Aadam        M                 18        M                 22    40
@@ -261,7 +264,7 @@ head(final, n=15) # Prints the top 15 names in the combined (y2015 and y2016) da
 </div>
 <div id="c.-the-client-is-expecting-a-girl-omit-boys-adn-give-the-top-10-most-popoular-girls-names.-assign-this-to-object-girl." class="section level2">
 <h2>3c. The client is expecting a girl! Omit boys adn give the top 10 most popoular girl’s names. Assign this to object ‘girl’.</h2>
-<pre class="r"><code>girl &lt;- merge( x = y2016[y2016$Gender == 'F',], y = y2015[y2015$Gender == 'F',], by = 'Name', all = FALSE)
+<pre class="r"><code>girl &lt;- merge( x = y2016[y2016$Gender == 'F',], y = y2015[y2015$Gender == 'F',], by = 'Name', all = FALSE) #Merges the 2015 and 2016 dataframes by Name and the female gender only.   Removes all observations with NA.
 girl$Total &lt;- girl$AmountOfChildren.x + girl$AmountOfChildren.y
 girl &lt;- girl[order(-girl$Total), c(&quot;Name&quot;, &quot;Total&quot;)] 
 head(girl)</code></pre>
@@ -275,7 +278,7 @@ head(girl)</code></pre>
 </div>
 <div id="d.-write-these-top-10-girl-names-and-thier-totals-to-a-csv-file-call-itsagirl.csv.-do-not-include-row-labels.-leave-out-columns-other-than-name-and-total." class="section level2">
 <h2>3d. Write these top 10 girl Names and thier Totals to a CSV file call ‘itsagirl.csv’. Do not include row labels. Leave out columns other than Name and Total.</h2>
-<p>ANSWER 3d. The top 10, most popular girl names from the combined y2015 and y2016 data sets are written to a csv fiel called ‘itsagirl.csv’.</p>
+<p>ANSWER 3d. The top 10, most popular girl names from the combined y2015 and y2016 data sets are written to a csv file called ‘itsagirl.csv’ found in the Github repo.</p>
 <pre class="r"><code>write.table(girl[1:10,c(&quot;Name&quot;, &quot;Total&quot;)], &quot;itsagirl.csv&quot;, sep=&quot;,&quot;, row.names = FALSE) #creates a .csv file with the data frame used in this exercise.</code></pre>
 </div>
 </div>

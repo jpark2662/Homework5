@@ -1,0 +1,40 @@
+Per question 4, describe each object created in the r markdown file.
+
+OBJECTS
+
+yob2016.txt; A text file containing names, gender, and quantity of each name for individuals born in 2016.
+
+yob2015.txt; A text file containing names, gender, and quantity of each name for individuals born in 2015.
+
+names; names of babies born that year.
+
+gender; sex of the observation.
+
+quantity; number of babies born with the same name in that year.
+
+df; The initial dataframe that the yob2016.txt file is read into.
+
+x; A vector used  to find all names in the data fram with 'yyy' in the name.
+
+y2016; A dataframe that is the same as the original df dataframe less the names that contain 'yyy' based on the yob2016.txt input file.
+
+y2015; A dataframe containing names, gender, and quantity of each name for individuals born in 2015 based on the yob2015.txt input file.
+
+final; A dataframe that merges the y2015 and y2016 dataframes for males by names.  It only includes those names that appear in both of the merged dataframes.
+
+AmountOfChildren.x;  A variable in the final dataframe describing the quantity children wiht the same name from the y2016 dataframe.
+ 
+AmountOfChildren.y; A variable in the final dataframe describing the quantity children wiht the same name from the y2015 dataframe.
+
+Total; A variable in the final and girl dataframes that combines AmountOfChildren.x and AmountOfChildren.y from the merged datasets.
+
+girl; A dataframe that merges the y2015 and y2016 dataframes for females by names.  It only includes those names that appear in both of the merged dataframes.
+
+itsagirl.csv; A text file that list the top 10 most popular girls names.
+
+ADDITIONAL NOTES (NOT REQUIRED FOR HOMEWORK)
+LIBRARY
+Functions used in this exercise.
+
+library'reshape2'
+library'data.table
